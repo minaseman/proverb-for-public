@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        User informations<br/>
+        <table border="1">
+          <thread>
+            <tr>
+              <th>mail address</th>
+              <th>{{object.email}}</th>
+            </tr>
+          </thread>
+          <tbody>
+          <tfoot>
+            <tr>
+              <td>last login</td>
+              <td>{{object.last_login}}</td>
+            </tr>
+          </tfoot>
+        </table>
+        <a href="{% url "user_update"%} ">update_user</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

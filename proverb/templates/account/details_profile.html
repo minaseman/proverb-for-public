@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{%block title%}Profile{%endblock%}
+{% load imagekit %}
+{% load static %}
+{% block content %}
+<!-- main content-->
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <!--left column-->
+      {% include "account/left_bar.html"%}
+      <!--/left column-->
+      <!--right column-->
+      <div class="col">
+        <div class="card card-default my-4">
+          <div class="card-header">
+            <h2 class="card-title">
+              <img class="rounded-circle" src="{{object.get_thumbnail_url}}" width="50" height="50"/>
+              User Information
+            </h2>
+            <hr/>
+            <a href="{% url "profile_details" pk=object.pk%}"><i class="far fa-user">{{object.screenname}}</i></a>&nbsp;&nbsp;
+            {%include "utils/profile_icons.html" with profile=object%}
+          </div>
+          <div class="card-body">
+            {%if object.is_public%}
+            <dl>
+              <dt class="">User name(Screen Name)</dt>
+              <dd class="">{{object.screenname}}</dd>
+              <dt class="">Description</dt>
+              <dd class="">{{object.get_description|striptags|linebreaks}}</dd>
+              <dt class="">Registration</dt>
+              <dd class=""><i data-toggle="tooltip" title="Registration" class="far fa-clock">{{object.created_at}}</i></dd>
+            </dl>
+            {%else%}
+            <p>This profile is not public.</p>
+            {%endif%}
+          </div>
+          <div class="card-footer">
+            {%if object.pk != user.get_profile.pk%}
+              {%if not following%}
+                <form method="post" action="{% url 'follow' %}">
+                {% csrf_token %}
+                <input type="hidden" name="profile" value="{{object.pk}}" required id="id_profile">
+                <input class="btn btn-success" type="submit" value="follow">
+                </form>
+              {%else%}
+                <form method="post" action="{% url 'cancel_follow' %}">
+                {% csrf_token %}
+                <input type="hidden" name="profile" value="{{object.pk}}" required id="id_profile">
+                <input class="btn btn-success" type="submit" value="Cancel follow">
+                </form>
+              {%endif%}
+            {%endif%}
+          </div>
+        </div>
+      </div>
+      <!--/right column-->
+    </div>
+</div>
+<!-- /main content -->
+<!-- content 1 -->
+<div class="py-4">
+
+</div>
+<!-- /content 1 -->
+<!-- content 2 -->
+<div class="py-4">
+
+</div>
+<!-- /content 2 -->
+
+{% endblock %}

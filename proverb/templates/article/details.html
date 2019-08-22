@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{%block title%}
+{{object.title}} - written by {{object.author.screenname}}
+{%endblock%}
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {%include "utils/article_information.html" with article=object mode="details"%}
+        <hr>
+        <h2>Reviews</h2>
+        {% for review in object.reviews.all|slice:":5" %}
+        <div class="card card-default my-4">
+          <div class="card-header">
+            <h5 class="card-title"><i class="fas fa-star-half-alt">{{object.get_score|floatformat:"0"}}</i>&nbsp;&nbsp;{{review.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              <a href="{% url "profile_details" pk=object.author.pk%}">
+                <i class="far fa-user">{{review.author.screenname}}</i>
+              </a>
+              &nbsp;&nbsp;<i class="far fa-clock">{{review.created_at}}</i></h6>
+          </div>
+          <div class="card-body">
+            {{review.description|linebreaks|truncatechars:100}}
+            <a href="{% url "review_details" pk=review.pk%}">Continue reading</a>
+          </div>
+        </div>
+        {%empty%}
+        There is no reviews.
+        {%endfor%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

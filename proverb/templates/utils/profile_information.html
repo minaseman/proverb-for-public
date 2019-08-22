@@ -1,0 +1,29 @@
+{% load extras %}
+<div class="card card-default my-2">
+  <div class="card-header">
+    <h2 class="card-title"><a href="{% url "profile_details" pk=profile.pk%}">
+      <img class="rounded-circle" src="{{profile.get_thumbnail_url}}" width="50" height="50"/>
+      <i class="far fa-user">{{profile.screenname}}</i></a></h2>
+    {%include "utils/profile_icons.html" with profile=profile%}
+  </div>
+  <div class="card-body">
+    <p>{{profile.description|striptags|truncatechars:40}}</p>
+    {%if profile.get_representative%}
+      <h3>Representative</h3>
+      {%for work in profile.get_representative|slice:":3"%}
+      <div class="media mt-3">
+        <img class="mr-2" alt="" src="http://placehold.it/60x60&text=img"/>
+        <div class="media-body">
+          <h5><a href="{% url "article_details" pk=work.pk%}">{{work.title}}</a></h5>
+          {%include "utils/article_icons.html" with article=work%}
+          <hr>
+          <p>{{work.description|striptags|truncatechars:40}}</p>
+        </div>
+      </div>
+      {%endfor%}
+    {%else%}
+    {%endif%}
+  </div>
+  <div class="card-footer">
+  </div>
+</div>

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{%block title%}Badge Box{%endblock%}
+{% load static %}
+{% block content %}
+<div class="py-4">
+  <div class="container">
+
+    <div class="row">
+      <!--left column-->
+      {% include "account/left_bar.html"%}
+      <!--/left column-->
+      <div class="col">
+        <h1>Badge Box</h1>
+        <div class="row">
+          {%if public%}
+          {%with b="1article" image="images.jfif" title="1article" description="this is test"%}
+            {%if b in badges%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=True%}
+            {%else%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=False%}
+            {%endif%}
+          {%endwith%}
+          {%with b="10articles" image="images.jfif" title="10article" description="this is test"%}
+            {%if b in badges%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=True%}
+            {%else%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=False%}
+            {%endif%}
+          {%endwith%}
+          {%with b="5days" image="images.jfif" title="5days" description="you passed 5days from registration"%}
+            {%if b in badges%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=True%}
+            {%else%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=False%}
+            {%endif%}
+          {%endwith%}
+          {%with b="" image="images.jfif" title="" description=""%}
+            {%if b in badges%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=True%}
+            {%else%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=False%}
+            {%endif%}
+          {%endwith%}
+          {%with b="" image="images.jfif" title="" description=""%}
+            {%if b in badges%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=True%}
+            {%else%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=False%}
+            {%endif%}
+          {%endwith%}
+          {%with b="" image="images.jfif" title="" description=""%}
+            {%if b in badges%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=True%}
+            {%else%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=False%}
+            {%endif%}
+          {%endwith%}
+          {%with b="" image="images.jfif" title="" description=""%}
+            {%if b in badges%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=True%}
+            {%else%}
+              {% include "badge/badge_card.html" with image=image title=title description=description active=False%}
+            {%endif%}
+          {%endwith%}
+          {%else%}
+          <h2>This box is not for public</h2>
+          {%endif%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% load widget_tweaks %}
+<div class="card card-default my-4">
+  <div class="card-header">
+    <h2 class="card-title">
+      {%if mode == "details"%}
+      {{article.title}}
+      {%else%}
+      <a href="{% url "article_details" pk=article.pk%}">
+        {{article.title}}
+      </a>
+      {%endif%}
+    </h2>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <a href="{% url "profile_details" pk=article.author.pk%}">
+        <img class="rounded-circle" src="{{article.author.get_thumbnail_url}}" width="30" height="30"/>&nbsp;
+        {{article.author.screenname}}
+      </a>
+      &nbsp;&nbsp;<i class="far fa-clock">{{article.created_at}}</i>
+    </h6>
+    {%include "utils/article_icons.html" with article=article%}
+    <hr>
+    <p><i class="fas fa-tag"></i> {% for tag in article.hashTags.all%}<a href="{% url "article_list"%}?hashTags={{tag.get_wordname}}">{{tag}}</a>{% if not forloop.last %}&nbsp;&nbsp;{%endif%}{% endfor %}</p>
+  </div>
+  <div class="card-body">
+    {%if mode == "details"%}
+    {{object.get_description|linebreaks}}
+    {%else%}
+      {{article.description|striptags|truncatechars:40}}
+    {%endif%}
+  </div>
+  <div class="card-footer">
+    {%if user.is_authenticated%}
+    {%if mode == "details"%}
+    <div class="form-row align-items-center">
+      <form class="form-inline" method="post" action="{% url 'article_details' pk=object.pk%}">
+        {% csrf_token %}
+        <div class="form-group">
+        <input type="hidden" name="manipulation" value="Add Mylist" required id="id_manipulation">
+        <input type="hidden" name="article" value="{{object.pk}}" required id="id_article">
+        </div>
+        <div class="col-auto">
+        {% render_field form.mylist|append_attr:"class:form-control"|append_attr:"class:mb-2" %}
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-2">Add to Mylist</button>
+        </div>
+      </form>
+      <div class="col-auto">
+        {%if object.author != user.get_profile%}
+        <a class="btn btn-success mb-2" href="{% url "review_create" article_pk=object.pk %}">Please Review This!</a>
+        {%endif%}
+      </div>
+    </div>
+    {%elif mode == "mylist"%}
+      {% if mylist.author == user.get_profile%}
+      <form method="post" action="{% url 'mylist_details' pk=mylist.pk%}">
+        {% csrf_token %}
+        <input type="hidden" name="manipulation" value="Delete Article" maxlength="20" required_id="id_manipulation">
+        <input type="hidden" name="article" value="{{memory.pk}}" required_id="id_article">
+        <input type="submit" class="btn btn-success mb-2" value="Delete Article From Mylist">
+      </form>
+      {%endif%}
+    {%endif%}
+    {%endif%}
+  </div>
+</div>

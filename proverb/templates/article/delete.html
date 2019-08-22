@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>Article Delete Form</h1>
+        <div class="card card-default my-4">
+          <div class="card-header">
+            <h2 class="card-title">{{object.title}}</h2>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {{object.author.screenname}}
+              &nbsp;&nbsp;<i class="far fa-clock">{{object.created_at}}</i>
+            </h6>
+            <i class="far fa-heart">{{object.count_good_reviews}}</i>&nbsp;&nbsp;
+            <i class="fas fa-star-half-alt">{%if object.get_score != 0%}{{object.get_score|floatformat:"1"}}{%else%}not reviewd{%endif%}</i>&nbsp;&nbsp;
+            <i class="far fa-thumbs-up">{{object.author.count_followers}}</i>&nbsp;&nbsp;
+            <hr>
+            <p><i class="fas fa-tag"></i> {% for tag in object.hashTags.all%}<a href="{% url "article_list"%}?hashTags={{tag.get_wordname}}">{{tag}}</a>{% if not forloop.last %}&nbsp;&nbsp;{%endif%}{% endfor %}</p>
+          </div>
+          <div class="card-body">
+            {{object.get_description|linebreaks}}
+          </div>
+        </div>
+        {% if form.errors %}
+        <p>There are some errors.</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'article_delete' pk=object.pk%}">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" class="btn btn-danger" value="article_delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

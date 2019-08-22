@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <table border="1">
+          <thread>
+            <tr>
+              <th>title</th>
+              <th>{{object.title}}</th>
+            </tr>
+          </thread>
+          <tbody>
+            <tr>
+              <td>description</td>
+              <td>{{object.description}}</td>
+            </tr>
+            <tr>
+              <td>author</td>
+              <td>{{object.author.screenname}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>created_at</td>
+              <td>{{object.created_at}}</td>
+            </tr>
+          </tfoot>
+        </table>
+        {% if form.errors %}
+        <p>There are some errors.</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'review_delete' pk=object.pk%}">
+        {% csrf_token %}
+        <table>
+        {{form}}
+        </table>
+        <input type="submit" value="review_delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

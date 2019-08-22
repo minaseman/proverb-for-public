@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load extras %}
+{% block content %}
+<!-- main content-->
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <!--left column-->
+      {% include "account/left_bar.html"%}
+      <!--/left column-->
+      <!--right column-->
+      <div class="col">
+        {%for obj in object_list%}
+        {%include "utils/profile_information.html" with profile=obj%}
+        {%comment%}
+        <div class="media">
+          <img class="mr-3" alt="" src="http://placehold.it/60x60&text=img"/>
+          <div class="media-body">
+            <a href="{% url "profile_details" pk=obj.pk%}">{{obj.screenname}}</a>
+            <p>{{obj.get_description|striptags|truncatechars:40}}</p>
+            {%for work in obj.get_representative|slice:":3"%}
+            <div class="media mt-3">
+              <img class="mr-2" alt="" src="http://placehold.it/60x60&text=img"/>
+              <div class="media-body">
+                <h6><a href="{% url "article_details" pk=work.pk%}">{{work.title}}</a></h6>
+                score: {%if not work.get_score == 0%}{{work.get_score}}{%else%}Unreviewed{%endif%}
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+        </div>
+        {%endcomment%}
+        {%empty%}
+        <p>There is no follower in this profile</p>
+        {%endfor%}
+        <div class="py-4">
+          {% include "utils/pagination.html"%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

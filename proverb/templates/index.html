@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}
+  Index
+{% endblock %}
+{% load staticfiles %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div id="main_visual" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#main_visual" data-slide-to="0" class="active"></li>
+        <li data-target="#main_visual" data-slide-to="1"></li>
+        <li data-target="#main_visual" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="img-fluid" src="{% static 'images/title.png'%}" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h2>Let's enjoy Proverb!</h2>
+            <p>Enter into proverb's world!</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <a href="{% url "index" %}">
+            <img class="img-fluid" src="{% static 'images/About Us.png'%}" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <font size="" color="#00ff00">
+                <h2>We are Proverb Theory</h2>
+                <p>We produce your proverb for people</p>
+              </font>
+            </div>
+          </a>
+        </div>
+        <div class="carousel-item">
+          <img class="img-fluid" src="{% static 'images/What is Proverb.png'%}" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <font size="" color="#AD3140">
+            <h2>Do you know proverb?</h2>
+            <p>Dive to proverb world!</p>
+            </font>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#main_visual" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">preview before</span>
+      </a>
+      <a class="carousel-control-next" href="#main_visual" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">go next</span>
+      </a>
+    </div>
+
+    <div class="row mb-2 py-4">
+      <div class="col-12">
+        <h3 class="pb-4 mb-4 font-italic border-bottom">
+          New Articles
+        </h3>
+      </div>
+      {%for obj in new|slice:":6"%}
+      <div class="col-md-6">
+      <!-- <section class="py-4"> -->
+          <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-primary">written by {{obj.author.screenname}}</strong>
+              <h3 class="mb-0">{{obj.title}}</h3>
+              <p class="card-text mb-auto">{{obj.get_description}}</p>
+              <div class="mb-1 text-muted">{{obj.created_at}}</div>
+              <a href="{% url "article_details" pk=obj.pk%}" class="stretched-link">Continue reading</a>
+            </div>
+          </div>
+      <!-- </section> -->
+      </div>
+      {%endfor%}
+    </div>
+    {%if user.is_staff%}
+    <section>
+      <p><a href="{% url "password_change" %}">password_change</a></p>
+      <p><a href="{% url "password_change_done" %}">password_change_done</a></p>
+      <p><a href="{% url "password_reset" %}">password_reset</a></p>
+      <p><a href="{% url "password_reset_done" %}">password_reset_done</a></p>
+      <p><a href="{% url "password_reset_confirm" uidb64="test" token="test" %}">password_reset_confirm</a></p>
+      <p><a href="{% url "password_reset_done" %}">password_reset_done</a></p>
+      <br/>
+      <p><a href="{% url "review_list" %}">review list</a></p>
+      <br/>
+      <p><a href="{% url 'admin:index' %}">admim</p>
+
+      <p><a href="{% url "follow" %}">follow</a></p>
+      <p><a href="{% url "cancel_follow" %}">cancel_follow</a></p>
+    </section>
+    {%endif%}
+
+  </div>
+</div>
+{% endblock %}

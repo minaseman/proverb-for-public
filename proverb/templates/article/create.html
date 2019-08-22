@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load bootstrap %}
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <form method="post" action="{% url 'article_create' %}">
+          {% csrf_token %}
+          <h1>Article Creation</h1>
+          <p>---Please write with checking writing policy deeply.</p>
+          {{form|bootstrap}}
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="check" required>
+            <label class="form-check-label" for="check1b">I have already read the writing policy and agree it.</label>
+          </div>
+          <input type="submit" class="btn btn-success" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

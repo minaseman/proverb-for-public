@@ -1,0 +1,196 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="{% static 'css/custom.css' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
+    <link href="{% static 'fontawesome-free-5.9.0-web/css/all.css' %}" rel="stylesheet">
+    <title>{%block title%}{%endblock%} - Proverb</title>
+    {% block head %}{% endblock %}
+    <style>
+      body {
+        background-image: url({% static 'images/background.png' %});
+        /*background-position: center center;*/
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        /*background-size: cover;*/
+        background-color: #ffffff;
+      }
+      @media only screen and (max-width: 767px) {
+        body {
+          background-image: url();
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- header -->
+    <header class="">
+      <div class="alert alert-danger" role="alert">
+        <p>Please note that this page is alpha version and under development.<br/>
+        There is a possibility to delete data or make dangarous accidents with your data suddenly.<br/>
+        Please don't register your email address or a account now.
+        </p>
+      </div>
+    </header>
+    <!-- /header -->
+    <!-- navigation bar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="/"><img class="rounded-circle" src="{% static 'images/icon.png' %}" width="30" height="30"/>&nbsp;ProverbTheory(&alpha;0.01)</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbar-content" aria-controls="navbar-content"
+        aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--navigation-->
+        <div div class="collapse navbar-collapse" id="navbar-content">
+          <!-- navigation manu -->
+          <!-- left manu-->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item{% url "index" as page%}{%if request.path == page %} active{%endif%}">
+              <a class="nav-link" href="/">Top<span class="sr-only">
+                (current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#"
+                id="navbarDropdown role=button"
+                data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                About
+              </a>
+              <div class="dropdown-menu" aria-labelledy="navbarDropdown">
+                <a class="dropdown-item" href="{% url "about_us" %}">About Us</a>
+                <a class="dropdown-item" href="{% url "about_what_is_proverb" %}">What is Proverb</a>
+                <a class="dropdown-item" href="{% url "about_proverb" %}">About Proverb</a>
+                <a class="dropdown-item" href="{% url "about_how_to_use" %}">About How To Use</a>
+                <a class="dropdown-item" href="{% url "about_writing_policy" %}">About Writing Policy</a>
+                <a class="dropdown-item" href="{% url "about_privacy_policy" %}">About Privacy Policy</a>
+                <a class="dropdown-item" href="{% url "about_copyright" %}">About Copyright</a>
+              </div>
+            </li>
+            <li class="nav-item {% url "article_list" as page%}{%if request.path == page %} active{%endif%}">
+              <a class="nav-link" href="{% url "article_list" %}">Articles</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#"
+                id="navbarDropdown role=button"
+                data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Information
+              </a>
+              <div class="dropdown-menu" aria-labelledy="navbarDropdown">
+                <a class="dropdown-item" href="{% url "about_developped_by" %}">Developped by</a>
+                <a class="dropdown-item" href="#">Access</a>
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            {% if user.is_authenticated%}
+              {%if user.has_profile%}
+                <li class="nav-item dropdown active">
+                  <a class="nav-link dropdown-toggle" href="#"
+                    id="navbarDropdown role=button"
+                    data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <img class="rounded-circle" src="{{user.get_profile.get_thumbnail_url}}" width="30" height="30"/>&nbsp;{{ user.get_profile.screenname }}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledy="navbarDropdown">
+                    <a class="dropdown-item" href="{% url "myprofile_details" %}"><i class="far fa-user"></i>Profile</a>
+                    <a class="dropdown-item" href="{% url "article_create" %}"><i class="far fa-file-alt"></i>Article Creation</a>
+                    <a class="dropdown-item" href="{% url "my_mylist_list" %}"><i class="far fa-folder-open"></i>Mylist</a>
+                    <a class="dropdown-item" href="{% url "my_follow_list" %}"><i class="far fa-thumbs-up"></i>Follows</a>
+                    <a class="dropdown-item" href="{% url "my_follower_list" %}"><i class="fas fa-users"></i>Followers</a>
+                    <a class="dropdown-item" href="{% url "my_badgebox" %}"><i class="fas fa-certificate"></i>Badgebox</a>
+                    <hr>
+                    <a class="dropdown-item" href="{% url "logout" %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                  </div>
+                </li>
+              {%else%}
+                <li class="nav-item active m-1">
+                  <a href="{% url "profile_create" %}" class="nav-link btn btn-success">Make Profile!</a>
+                </li>
+              {%endif%}
+            {% else %}
+            <li class="nav-item active m-1">
+              <a href="{% url "login" %}" class="nav-link btn btn-success">Registration</a>
+            </li>
+            <li class="nav-item active m-1">
+              <a href="{% url "login" %}" class="nav-link btn btn-success">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        <!--/navigation-->
+      </div>
+    </nav>
+    <!-- /navigation bar -->
+    <!-- main -->
+    <main>
+      {% block content %}{% endblock %}
+      <!-- main content-->
+      <div class="py-4">
+        <div class="container">
+
+        </div>
+      </div>
+      <!-- /main content -->
+      <!-- content 1 -->
+      <div class="py-4">
+
+      </div>
+      <!-- /content 1 -->
+      <!-- content 2 -->
+      <div class="py-4">
+
+      </div>
+      <!-- /content 2 -->
+      <!-- content 3 -->
+      <div class="py-4">
+
+      </div>
+      <!-- /content 3 -->
+      <!-- content 4 -->
+      <div class="py-4">
+
+      </div>
+      <!-- /content 4 -->
+    </main>
+    <!-- /main -->
+    <!--footer-->
+    <footer class="py-4 bg-dark text-light">
+      <div class="container text-center">
+        <!-- navigation-->
+        <ul class="nav justify-content-center mb-3">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Top</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">News</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Top</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">News</a>
+          </li>
+        </ul>
+        <!--/navigation-->
+        <p><small>Copyright &copy;2019 Proverb, All Rights Reserved.</small></p>
+      </div>
+    </footer>
+    <!--/footer-->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+  </body>
+</html>

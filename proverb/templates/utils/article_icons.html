@@ -1,0 +1,4 @@
+<i class="far fa-eye">{{article.count_views}}</i>&nbsp;&nbsp;
+<i class="far fa-heart">{{article.count_good_reviews}}</i>&nbsp;&nbsp;
+<i class="fas fa-star-half-alt">{%if article.get_score != 0%}{{article.get_score|floatformat:"1"}}{%else%}not reviewd{%endif%}</i>&nbsp;&nbsp;
+<i class="fas fa-users">{{article.author.count_followers}}</i>&nbsp;&nbsp;

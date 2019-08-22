@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load extras %}
+{%block title%}
+{{object.title}} - Mylist made by {{object.author.screenname}}
+{%endblock%}
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <!--left column-->
+      {% include "account/left_bar.html"%}
+      <!--/left column-->
+      <!--right column-->
+      <div class="col">
+        {%if mode == "my" or object.is_public%}
+        <div class="card card-default my-4">
+          <div class="card-header">
+            <h2 class="card-title">
+              {{object.title}}
+            </h2>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {{object.count_memories}} was registered, made by {{object.author.screenname}}
+            </h6>
+            <div class="form-row align-items-center">
+              {% if mode == "my"%}
+              <div class="col-auto">
+                <a href="{% url "mylist_update" pk=object.pk%} " class="btn btn-success">Update</a>
+              </div>
+              <div class="col-auto">
+                <a href="{% url "mylist_delete" pk=object.pk%} " class="btn btn-success">Delete</a>
+              </div>
+              {% endif %}
+            </div>
+            <hr>
+            <p>{{object.get_description}}</p>
+          </div>
+          <div class="card-body">
+            {%for obj in object.articles.all%}
+              {%include "utils/article_information.html" with mode="mylist" article=obj.target mylist=object memory=obj%}
+            {%empty%}
+            <p>You don't have article in this mylist</p>
+            {%endfor%}
+          </div>
+          <div class="card-footer">
+            <div class="py-1">
+              {% include "utils/pagination.html"%}
+            </div>
+          </div>
+        </div>
+        {%endif%}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

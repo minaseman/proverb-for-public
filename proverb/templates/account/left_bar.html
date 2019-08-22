@@ -1,0 +1,71 @@
+{% load extras %}
+{%if mode == "my"%}
+{%url "myprofile_details" as details%}
+{%url "my_mylist_list" as mylist_list%}
+{% url "my_follow_list" as follow_list%}
+{% url "my_follower_list" as follower_list%}
+{% url "my_badgebox" as badgebox%}
+{%else%}
+{%url "profile_details" profile.pk as details%}
+{%url "mylist_list" profile.pk as mylist_list%}
+{% url "follow_list" profile.pk as follow_list%}
+{% url "follower_list" profile.pk as follower_list%}
+{% url "badgebox" profile.pk as badgebox%}
+{%endif%}
+<ul class="col-md-3 list-group">
+  <li class="list-group-item">
+    {%if request.path != details %}
+    <a class="nav-link" href={{details}}><i class="far fa-user"></i>Profile</a>
+    {%else%}
+    <i class="far fa-user"></i>Profile
+    {%endif%}
+  </li>
+  <li class="list-group-item">
+    {%if request.path != mylist_list %}
+    <a class="nav-link" href="{{mylist_list}}"><i class="far fa-folder-open"></i>Mylist</a>
+    {%else%}
+    <i class="far fa-folder-open"></i>Mylist
+    {%endif%}
+    {%if profile.get_mylists.exists and profile == user.get_profile or profile.get_mylists.exists and  profile.is_public%}
+    <ul class="list-group-item">
+      {% for obj in profile.get_mylists %}
+      {% url "mylist_details" obj.pk as page%}
+      {%if request.path != page %}
+        <a class="nav-link" href="{% url "mylist_details" pk=obj.pk%} "><i class="far fa-folder-open">{{obj.title}}</i></a>
+      {%else%}
+        <i class="far fa-folder-open"></i>{{obj.title}}<br/>
+      {%endif%}
+      {%empty%}
+        You don't have mylist<br/>
+      {%endfor%}
+    </ul>
+    {%endif%}
+  </li>
+  <li class="list-group-item">
+    {%if request.path != follow_list %}
+    <a class="nav-link" href="{{follow_list}}"><i class="far fa-thumbs-up"></i>Follows</a>
+    {%else%}
+    <i class="far fa-thumbs-up"></i>Follows
+    {%endif%}
+  </li>
+  <li class="list-group-item">
+    {%if request.path != follower_list %}
+    <a class="nav-link" href="{{follower_list}}"><i class="fas fa-users"></i>Followers</a>
+    {%else%}
+    <i class="fas fa-users"></i>Followers
+    {%endif%}
+  </li>
+  <li class="list-group-item">
+    {%if request.path != badgebox %}
+    <a class="nav-link" href="{{badgebox}}"><i class="fas fa-certificate"></i>Badgebox</a>
+    {%else%}
+    <i class="fas fa-certificate"></i>Badgebox
+    {%endif%}
+  </li>
+  <hr>
+  {%if mode == "my"%}
+  <li class="list-group-item">
+    <a class="nav-link" href="{% url "logout" %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+  </li>
+  {%endif%}
+</ul>

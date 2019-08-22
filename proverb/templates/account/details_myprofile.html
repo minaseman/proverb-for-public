@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{%block title%}Profile{%endblock%}
+{% load imagekit %}
+{% load static %}
+{% block content %}
+<!-- main content-->
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <!--left column-->
+      {% include "account/left_bar.html"%}
+      <!--/left column-->
+      <!--right column-->
+      <div class="col">
+        <div class="card card-default my-4">
+          <div class="card-header">
+            <h2 class="card-title">
+              <img class="rounded-circle" src="{{object.get_thumbnail_url}}" width="50" height="50"/>
+              User Information
+              <hr/>
+              <a class="btn btn-success" href="{% url "profile_update"%} ">
+                Update Profile
+              </a>
+              <a class="btn btn-success" href="{% url "profile_details" pk=object.pk%} ">
+                Page for public
+              </a>
+            </h2>
+            <hr/>
+            <a href="{% url "myprofile_details" %}"><i class="far fa-user">{{object.screenname}}</i></a>&nbsp;&nbsp;
+            {%include "utils/profile_icons.html" with profile=object%}
+          </div>
+          <div class="card-body">
+            <dl>
+              <dt class="">User name(Screen Name)</dt>
+              <dd class="">{{object.screenname}}</dd>
+              <dt class="">Description</dt>
+              <dd class="">{{object.get_description|striptags|linebreaks}}</dd>
+              <dt class="">Registration</dt>
+              <dd class=""><i data-toggle="tooltip" title="Registration" class="far fa-clock">{{object.created_at}}</i></dd>
+              <dt class="">Mail Magazine</dt>
+              <dd class="">
+                {%if object.mail_magazine %}ON
+                {%else%}OFF{%endif%}
+              </dd>
+              <dt class="">This page is public</dt>
+              <dd class="">
+                {%if object.is_public %}ON
+                {%else%}OFF{%endif%}
+              </dd>
+            </dl>
+          </div>
+          <div class="card-footer">
+            <a href="{% url "withdrawal" %}">withdrawal</a>
+          </div>
+        </div>
+      </div>
+      <!--/right column-->
+    </div>
+</div>
+<!-- /main content -->
+<!-- content 1 -->
+<div class="py-4">
+
+</div>
+<!-- /content 1 -->
+<!-- content 2 -->
+<div class="py-4">
+
+</div>
+<!-- /content 2 -->
+
+{% endblock %}

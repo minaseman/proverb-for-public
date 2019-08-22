@@ -1,0 +1,14 @@
+{% load static %}
+<div class="card col-md-4 col-6" stype="max-width:25rem;">
+  <img class="card-img-top
+  {%if not active%} gray{%endif%}"
+   src="{% static 'images/'%}{{image}}" alt="...">
+  <div class="card-body">
+    <h4 class="card-title">
+      {{title}}
+    </h4>
+    <p class="card-text">
+      {{description}}
+    </p>
+  </div>
+</div>

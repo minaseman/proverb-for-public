@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}
+Login
+{% endblock %}
+{% block head%}
+<style>
+.btn-google {
+  color: white;
+  background-color: #ea4335;
+}
+</style>
+{% endblock%}
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+            {% else %}
+            <p>Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
+
+        <form class="form-signin" method="post" action="{% url 'login' %}">
+          <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+          {% csrf_token %}
+          <label for="inputEmail" class="sr-only">{{form.username.label_tag}}</label>
+          {% render_field form.username|append_attr:"class:form-control" type="text" placeholder="Email address" %}
+          <label for="inputPassword" class="sr-only">{{ form.password.label_tag }}</label>
+          {% render_field form.password|append_attr:"class:form-control" type="password" placeholder="Password" %}
+          <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+          <input type="hidden" name="next" value="{{ next }}">
+        </form>
+        <hr>
+        <a class="btn btn-lg btn-google btn-block text-uppercase" href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google mr-2"></i> Google Account</a>
+        {# Assumes you setup the password_reset view in your URLconf #}
+        <hr>
+        <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

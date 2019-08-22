@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load extras %}
+{%block title%}
+Article List
+{%endblock%}
+{% load bootstrap %}
+{% block content %}
+
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="accordion" id="accordion">
+          <div class="accordion-group">
+            <div class="card">
+              <div class="card-header" role="tab" id="headingOne">
+                <h5 class="mb-0">
+                  <a class="text-body" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="fas fa-search">Search Form</i>
+                  </a>
+                </h5>
+              </div><!-- /.card-header -->
+              <div id="collapseOne" class="collapse {%if searched%}show{%endif%}" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                  <form method="post" action="{% url 'article_list' %}">
+                  {% csrf_token %}
+                  {{search_form|bootstrap}}
+                  <input type="submit" class="btn btn-success" value="article_list">
+                  </form>
+                </div><!-- /.card-body -->
+              </div><!-- /.collapse -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row py-2">
+      <div class="col-12">
+        {%for obj in object_list%}
+        {%include "utils/article_information.html" with article=obj mode=""%}
+        {%endfor%}
+        <div class="py-4">
+          {% include "utils/pagination.html"%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

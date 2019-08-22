@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        The review of "<a href="{% url "article_details" pk=object.target.pk %}">{{object.target.title}}</a>".<br/>
+        <table border="1">
+          <thread>
+            <tr>
+              <th>title</th>
+              <th>{{object.title}}</th>
+            </tr>
+          </thread>
+          <tbody>
+            <tr>
+              <td>description</td>
+              <td>{{object.description}}</td>
+            </tr>
+            <tr>
+              <td>author</td>
+              <td>{{object.author.screenname}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>created_at</td>
+              <td>{{object.created_at}}</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        {% if object.author == user.get_profile%}
+        <p><a href="{% url "review_update" pk=object.pk%} ">update_review</a></p>
+        <p><a href="{% url "review_delete" pk=object.pk%} ">delete_review</a></p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
